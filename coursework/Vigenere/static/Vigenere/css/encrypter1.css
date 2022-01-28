@@ -8,37 +8,21 @@ h2{
   color: #F1F2F4;
   text-shadow: 0 1px 0 #000;
 }
-a{
-  margin-top:-35px;
-  margin-left: 215px;
-  position: absolute;
-  text-decoration: none; color: rgba(114,212,202,1);
-  display: block;
-  width: 5%;
-  height: 4.5%;
-  line-height: 2em;
-  background: rgba(114,212,202,1);
-  border-radius: 5px;
-  border:0;
-  cursor: pointer;
-  border-top: 1px solid #B2ECE6;
-  box-shadow: 0 0 0 1px #46A294, 0 2px 2px #808389;
-  color: #FFFFFF;
-  font-size: 1em;
-  text-shadow: 0 1px 2px #21756A;
+#encrRB{
+position: absolute;
+   margin-left: -145px;
+   margin-top: 5px;
 }
-a:hover{
- background: linear-gradient(to bottom, rgba(107,198,186,1) 0%,rgba(57,175,154,1) 100%);
-}
-a:active{
-  box-shadow: inset 0 0 5px #000;
-  background: linear-gradient(to bottom, rgba(57,175,154,1) 0%,rgba(107,198,186,1) 100%);
+#decrRB{
+position: absolute;
+   margin-left: -60px;
+   margin-top: 5px;
 }
 .messages{
    color: rgb(255, 85, 97);
    font-weight: 700;
    font-size: 15px;
-   margin-top:50px;
+   margin-top:90px;
    margin-left: 25px;
    position: absolute;
 }
@@ -88,6 +72,11 @@ a:active{
   border-bottom: 1px solid #FFFFFF;
   border-top: 2px solid #CBCBCD;
   margin: 0 auto;
+}
+#chosenFile{
+    position:absolute;
+    left:650px;
+    top: 490px;
 }
 h1{
   font-size: 1.6em;
@@ -144,7 +133,24 @@ input:focus{
 }
 #butt{
   margin-top: 10px;
-  margin-left: 5px;
+  margin-left: 0px;
+  display: block;
+  width: 25%;
+  line-height: 2em;
+  background: rgba(114,212,202,1);
+  border-radius: 5px;
+  border:0;
+  cursor: pointer;
+  border-top: 1px solid #B2ECE6;
+  box-shadow: 0 0 0 1px #46A294, 0 2px 2px #808389;
+  color: #FFFFFF;
+  font-size: 1em;
+  text-shadow: 0 1px 2px #21756A;
+}
+#butt1{
+  text-decoration: none;
+  margin-top: -35px;
+  margin-left: 225px;
   display: block;
   width: 25%;
   line-height: 2em;
@@ -164,4 +170,7 @@ input:focus{
 #butt:active{
   box-shadow: inset 0 0 5px #000;
   background: linear-gradient(to bottom, rgba(57,175,154,1) 0%,rgba(107,198,186,1) 100%);
+}
+#toAuthorize{
+  text-decoration: none;
 }

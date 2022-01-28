@@ -1,74 +1,54 @@
-def msg_and_key(msg, key):
-    if msg == '' or key == '':
-        key_map = 'Error'
-        return key_map
+def encrypt(message, key):
+    symbols = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ,.!?1234567890@#$%&*^()+:;/[]{}~<>|"
+    encrypted = ""
+    for i in message:
+        if i not in symbols:
+            return encrypted
+    for i in key:
+        if i not in symbols:
+            return encrypted
+    if len(message) == 0 or len(key) == 0 or len(message) < len(key):
+        return encrypted
     else:
-        key_map = ""
-        j = 0
-        for i in range(len(msg)):
-            if 65 <= ord(msg[i]) <= 90:
-                if j < len(key):
-                    key_map += key[j].upper()
-                    j += 1
-                else:
-                    j = 0
-                    key_map += key[j].upper()
-                    j += 1
-            elif 97 <= ord(msg[i]) <= 122:
-                if j < len(key):
-                    key_map += key[j]
-                    j += 1
-                else:
-                    j = 0
-                    key_map += key[j]
-                    j += 1
-            else:
-                key_map += " "
-        return key_map
+        letter_to_index = dict(zip(symbols, range(len(symbols))))
+        index_to_letter = dict(zip(range(len(symbols)), symbols))
+        split_text = [
+            message[i: i + len(key)] for i in range(0, len(message), len(key))
+        ]
+        for each_split in split_text:
+            i = 0
+            for letter in each_split:
+                number = (letter_to_index[letter] + letter_to_index[key[i]]) % len(symbols)
+                encrypted += index_to_letter[number]
+                i += 1
+
+        return encrypted
 
 
-def create_vigenere_table():
-    table = []
-    for i in range(26):
-        table.append([])
-    for row in range(26):
-        for column in range(26):
-            if (row + 65) + column > 90:
-                table[row].append(chr((row + 65) + column - 26))
-            else:
-                table[row].append(chr((row + 65) + column))
-    return table
+def decrypt(message, key):
+    symbols = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ,.!?1234567890@#$%&*^()+:;/[]{}~<>|"
+    decrypted = ""
+    for i in message:
+        if i not in symbols:
+            return decrypted
+    for i in key:
+        if i not in symbols:
+            return decrypted
+    if len(message) == 0 or len(key) == 0:
+        return decrypted
+    else:
+        letter_to_index = dict(zip(symbols, range(len(symbols))))
+        index_to_letter = dict(zip(range(len(symbols)), symbols))
+        split_encrypted = [
+            message[i: i + len(key)] for i in range(0, len(message), len(key))
+        ]
 
+        for each_split in split_encrypted:
+            i = 0
+            for letter in each_split:
+                number = (letter_to_index[letter] - letter_to_index[key[i]]) % len(symbols)
+                decrypted += index_to_letter[number]
+                i += 1
 
-def create_vigenere_table_1():
-    table = []
-    for i in range(26):
-        table.append([])
-    for row in range(26):
-        for column in range(26):
-            if (row + 97) + column > 122:
-                table[row].append(chr((row + 97) + column - 26))
-            else:
-                table[row].append(chr((row + 97) + column))
-    return table
+        return decrypted
 
-
-
-def cipher_encryption(message, mapped_key):
-    table = create_vigenere_table()
-    table1 = create_vigenere_table_1()
-    encrypted_text = ""
-    if mapped_key == 'Error':
-        return encrypted_text
-    for i in range(len(message)):
-        if 122 >= ord(message[i]) >= 97:
-            row = ord(message[i]) - 97
-            column = ord(mapped_key[i]) - 97
-            encrypted_text += table1[row][column]
-        elif 65 <= ord(message[i]) <= 90:
-            row = ord(message[i]) - 65
-            column = ord(mapped_key[i]) - 65
-            encrypted_text += table[row][column]
-        else:
-            encrypted_text += message[i]
-    return encrypted_text

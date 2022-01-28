@@ -8,7 +8,7 @@
 <div class="ribbon"></div>
   <h2>The Vigener Cipher</h2>
   <div class="login">
-  <form action="AuthEncMes" method="POST">
+  <form action="AuthEncMes" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
     <div class="input">
       <div class="blockinput">
@@ -27,8 +27,14 @@
             </ul>
         {% endif %}
     </div>
-    <button type="submit" id="butt">Encrypt</button>
-    <a href="http://127.0.0.1:8000/" id="toRegistration">Close</a>
+    <button type="submit" id="butt">Start</button>
+    <a id="butt1" href='http://127.0.0.1:8000'>Close</a>
+      <div id="buttons">
+    <input type="radio" id="encrRB" name="RB" value="Encrypt" checked> <label for="encrRB">Encrypt</label>
+    <input type="radio" id="decrRB" name="RB" value="Decrypt" > <label for="decrRB">Decrypt</label>
+  </div>
+       <a id="toAuthorize" href='http://127.0.0.1:8000/CheckMessages'>Look at your messages</a>
+       <input type="file" name="chosenFile" id="chosenFile">
   </form>
   </div>
 </body>

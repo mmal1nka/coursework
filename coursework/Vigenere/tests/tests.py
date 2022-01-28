@@ -1,38 +1,48 @@
 import unittest
 
-from coursework.Vigenere.vigenerecipher import msg_and_key, cipher_encryption
+from coursework.Vigenere.vigenerecipher import encrypt, decrypt
 
 
-class ShiphrTest(unittest.TestCase):
+class CipherTest(unittest.TestCase):
     def setUp(self):
         pass
 
     def test1(self):
-        key = msg_and_key('I love TUSUR', 'Yes')
-        result = cipher_encryption('I love TUSUR', key)
-        self.assertEqual('G pgni LSWMP', result)
+        result = encrypt('I love TUSUR', 'key')
+        self.assertEqual('SDIyzBJX&!Y#', result)
 
     def test2(self):
-        key = msg_and_key('Hello, World!', 'Hi')
-        result = cipher_encryption('Hello, World!', key)
-        self.assertEqual('Ommtp, Epzml!', result)
+        result = decrypt('SDIyzBJX&!Y#', 'key')
+        self.assertEqual('I love TUSUR', result)
 
     def test3(self):
-        key = msg_and_key('How are you doing?', 'dog')
-        result = cipher_encryption('How are you doing?', key)
-        self.assertEqual('Kcc dfk bca gcoqu?', result)
+        result = encrypt('How are you doing?', 'dog')
+        self.assertEqual('KBBCoxhNDrHFgBoqu6', result)
 
     def test4(self):
-        key = msg_and_key('', 'cat')
-        result = cipher_encryption('', key)
-        self.assertEqual('', result)
+        result = decrypt('KBBCoxhNDrHFgBoqu6', 'dog')
+        self.assertEqual('How are you doing?', result)
 
     def test5(self):
-        key = msg_and_key('', '')
-        result = cipher_encryption('', key)
+        result = encrypt('', 'cat')
         self.assertEqual('', result)
 
     def test6(self):
-        key = msg_and_key('+7959834430567', 'language')
-        result = cipher_encryption('+7959834430567', key)
-        self.assertEqual('+7959834430567', result)
+        result = encrypt('7959834430567', 'number')
+        self.assertEqual('+<^0#+^[&@9/+', result)
+
+    def test7(self):
+        result = decrypt('+<^0#+^[&@9/+', 'number')
+        self.assertEqual('7959834430567', result)
+
+    def test8(self):
+        result = encrypt('Hello!', 'beautiful')
+        self.assertEqual('', result)
+
+    def test9(self):
+        result = encrypt('Привет', 'да')
+        self.assertEqual('', result)
+
+    def test10(self):
+        result = decrypt('Hello', 'да')
+        self.assertEqual('', result)
