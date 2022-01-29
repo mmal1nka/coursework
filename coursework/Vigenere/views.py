@@ -42,9 +42,11 @@ def EncryptedTemplate(request):
 
 def AuthEncMes(request):
     form = CipherForm(request.POST, request.FILES or None)
-    if request.method == "POST" and form.is_valid():
+    if request.method == "POST":
         username = request.POST.get("Log")
         password = request.POST.get("pass")
+        mes = request.POST.get('mes')
+        key = request.POST.get('key')
         try:
             checkUserLogin = Person.objects.get(Login=username, Password=password)
             rb = request.POST.get("RB", None)
@@ -57,34 +59,65 @@ def AuthEncMes(request):
                         chsFile = open(path, 'a')
                         myfile = File(chsFile)
                         if checkUserLogin is not None:
-                            msg = form.cleaned_data['Mess']
-                            key = form.cleaned_data['Key']
+                            msg = mes
+                            key = key
                             EncMes = encrypt(msg, key)
                             if EncMes == '':
+                                data = {
+                                    'username': username,
+                                    'password': password,
+                                    'mes': mes,
+                                    'key': key,
+                                    'result': EncMes
+                                }
                                 messages.error(request, 'Incorrect message or key')
-                                return HttpResponseRedirect('encrypt')
+                                return render(request, "Vigenere/encrypter.html", data)
                             else:
+                                data = {
+                                    'username': username,
+                                    'password': password,
+                                    'mes': mes,
+                                    'key': key,
+                                    'result': EncMes
+                                }
                                 tmp = UserAndMessage.objects.create(EncryptMessage=EncMes, UserId=checkUserLogin.id)
                                 myfile.write("\nYour encrypted message: " + EncMes)
                                 myfile.closed
-                                messages.success(request, "Your encrypted message: " + EncMes)
-                                return HttpResponseRedirect('encrypt')
+                                return render(request, "Vigenere/encrypter.html", data)
                     except MultiValueDictKeyError:
+                        data = {
+                            'username': username,
+                            'password': password,
+                            'mes': mes,
+                            'key': key,
+                        }
                         messages.error(request, 'You have not chosen file')
-                        return HttpResponseRedirect('encrypt')
+                        return render(request, "Vigenere/encrypter.html", data)
                 elif rb == "Decrypt":
                     if checkUserLogin is not None:
-                        msg = form.cleaned_data['Mess']
-                        key = form.cleaned_data['Key']
+                        msg = mes
+                        key = key
                     try:
-                        tmp = UserAndMessage.objects.get(EncryptMessage=msg, UserId=checkUserLogin.id)
+                        tmp = UserAndMessage.objects.filter(EncryptMessage=msg, UserId=checkUserLogin.id)
                         if tmp is not None:
                             EncMes = decrypt(msg, key)
-                            messages.success(request, "Your Decrypted message: " + EncMes)
-                            return HttpResponseRedirect('encrypt')
+                            data = {
+                                'username': username,
+                                'password': password,
+                                'mes': mes,
+                                'key': key,
+                                'result': EncMes
+                            }
+                            return render(request, "Vigenere/encrypter.html", data)
                     except UserAndMessage.DoesNotExist:
+                        data = {
+                            'username': username,
+                            'password': password,
+                            'mes': mes,
+                            'key': key,
+                        }
                         messages.error(request, "Message is not found")
-                        return HttpResponseRedirect('encrypt')
+                        return render(request, "Vigenere/encrypter.html", data)
         except Person.DoesNotExist:
             messages.error(request, "Wrong login or password")
             return HttpResponseRedirect('encrypt')
