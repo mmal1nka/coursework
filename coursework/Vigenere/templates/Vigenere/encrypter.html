@@ -11,13 +11,20 @@
       {% csrf_token %}
     <div class="input">
       <div class="blockinput">
-        <i class="icon-envelope-alt"></i><input type="text" placeholder="Login" name="Log" id="Log">
+        <i class="icon-envelope-alt"></i><input type="text" value="{{username}}" placeholder="Login" name="Log" id="Log">
       </div>
       <div class="blockinput">
-        <i class="icon-unlock"></i><input type="password" placeholder="Password" name="pass" id="pass">
+        <i class="icon-unlock"></i><input type="password" value="{{password}}" placeholder="Password" name="pass" id="pass">
       </div>
-      {{form.Mess}}
-       {{form.Key}}
+       <div class="blockinput">
+        <i class="icon-envelope-alt"></i><input type="text" id="mes" name="mes" value="{{mes}}" placeholder="Enter the message: " />
+      </div>
+        <div class="blockinput">
+        <i class="icon-envelope-alt"></i><input type="text" id="key" name="key" value="{{key}}" placeholder="Enter the key: " />
+      </div>
+        <div class="blockinput">
+        <i class="icon-envelope-alt"></i> <input type="text" id="result" name="result" value="{{result}}" placeholder="Result: " />
+      </div>
             {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
